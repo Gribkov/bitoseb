@@ -92,7 +92,7 @@ for i in range(4,mxBi,1):
     sprTrz[contract][week][ispolnitel] += workListBi.cell(row = i, column = 14).value
 
 pprint.pprint(sprTrz)
-j = 0
-for j in sprTrz:
-    j += 1
-print(j)
+jj = 0
+for j in sprTrz['25/689-17']['8/1-14/1']:
+    jj += 1
+print(jj)
