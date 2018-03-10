@@ -93,6 +93,8 @@ for i in range(4,mxBi,1):
 
 pprint.pprint(sprTrz)
 jj = 0
-for j in sprTrz['25/689-17']['8/1-14/1']:
-    jj += 1
+for j in sprTrz:
+    for k in sprTrz[j]:
+        for d in sprTrz[j][k]:
+            jj += 1
 print(jj)
