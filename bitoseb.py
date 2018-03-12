@@ -99,5 +99,9 @@ for j in sprTrz:
     for k in sprTrz[j]:
         for l in sprTrz[j][k]:
             w = 1
+            for allRows in range(1,mxSeb,1):
+                print(str(l)+'<- L| ', str(workListSeb.cell(row = allRows, column = 1).value)+'<- A1| ', str(workListSeb.cell(row = allRows, column = 150).value)+'<-FN')
+            #if sprTrz[j][k] == workListSeb.cell(row = allRow, column = 150).value:
+
 
 #pprint.pprint(sprTrz)
