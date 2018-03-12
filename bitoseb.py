@@ -9,7 +9,7 @@ import pprint
 print('''
 Данный скрипт заполняет файл себестоимости жанными из выгрузки Bi вам надо перетащить сюда 2 файла в следующем порядке:
   1) Выгрузка из Bi
-  2)Файл себестоимости
+  2) Файл себестоимости
 Скрипт создаст копию себестотмости в той же папке откуда взяли исходную себестоимость.
 ''')
 
@@ -82,7 +82,7 @@ for i in range(4,mxBi,1):
     contract = workListBi.cell(row = i, column = 9).value
     weekStart = workListBi.cell(row = i, column = 4).value
     weekEnd = workListBi.cell(row=i, column=5).value
-    week = str(weekStart.day)+'/'+str(weekStart.month)+'-'+str(weekEnd.day)+'/'+str(weekEnd.month)
+    week = str(weekStart.day).zfill(2)+'/'+str(weekStart.month).zfill(2)+'-'+str(weekEnd.day).zfill(2)+'/'+str(weekEnd.month).zfill(2)
     ispolnitel = workListBi.cell(row = i, column = 1).value
 
     #Создадим структуру
@@ -94,12 +94,10 @@ for i in range(4,mxBi,1):
 for j in sprTrz:
     #найдем колонку с неделей
     for jn in range(1, 150, 1):
-        print(str(workListSeb.cell(row = 2, column = jn).value), str(j), str(workListSeb.cell(row = 2, column = jn).value)) == str(j))
         if str(workListSeb.cell(row = 2, column = jn).value) == str(j):
-           weekColumn = jn
+           weekColumn = jn+1 #т.к. неделя в себестоимости объединена, то надо брать на одну дальше, что бы писать в факт
     for k in sprTrz[j]:
         for l in sprTrz[j][k]:
-            print(j,sprTrz[j])
-#print('week',weekColumn)
+            w = 1
 
 #pprint.pprint(sprTrz)
