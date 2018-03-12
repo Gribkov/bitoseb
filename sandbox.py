@@ -5,14 +5,6 @@ import datetime
 import pprint
 
 
-#--- Вывод описания и инструкции
-print('''
-Данный скрипт заполняет файл себестоимости жанными из выгрузки Bi вам надо перетащить сюда 2 файла в следующем порядке:
-  1) Выгрузка из Bi
-  2)Файл себестоимости
-Скрипт создаст копию себестотмости в той же папке откуда взяли исходную себестоимость.
-''')
-
 print('Текущий каталог: ',os.getcwd())
 
 #--- Функция ввода путей для файлов
@@ -40,13 +32,6 @@ def myFileName(welcomeText, needCopy):
 #--- Вводим путь файла из bi
 #пока прикроем fileNameBi = myFileName('Введите имя файла выгрузки Bi и нажмите Enter:', False)
 fileNameBi = openpyxl.load_workbook('trz.xlsx')
-
-#--- Вводим файл себестоимости, создаем копию с котррой и будем работать
-#пока прикроем fileNameSeb = myFileName('Введите имя файла себестоимости сюда и нажмите Enter:', True)
-fileNameSeb = openpyxl.load_workbook('seb.xlsx')
-
-
-#---TODO вывод предварительных данных
 # Состав файла Трз
 # Исполнитель -  A4 (r4, c1)
 # Проект - G4 (r4, c7)
@@ -60,18 +45,10 @@ fileNameSeb = openpyxl.load_workbook('seb.xlsx')
 listsBi = fileNameBi.sheetnames
 workListBi = fileNameBi[listsBi[0]]
 
-listsSeb = fileNameSeb.sheetnames
-workListSeb = fileNameSeb[listsSeb[0]]
-
 #Вычислим максимальное кол-во строк в выгрузке
 mxBi = 1 #сюда запишем сколько строк в выгрузке из  bi
 while  str(workListBi.cell(row = mxBi, column = 1).value) != 'Общий итог':
        mxBi += 1
-
-#Вычислим максимальное кол-во строк в себестоимости
-mxSeb = 1 #сюда запишем сколько строк в себестоимости
-while  str(workListSeb.cell(row = mxSeb, column = 1).value) != 'ENDOFTRZ':
-       mxSeb += 1
 
 #Создадим справочник контрактов со справочником исполнителей и из трз
 sprTrz = {}
@@ -92,14 +69,9 @@ for i in range(4,mxBi,1):
     sprTrz[week][contract][ispolnitel] += workListBi.cell(row = i, column = 14).value
 
 for j in sprTrz:
-    #найдем колонку с неделей
-    for jn in range(1, 150, 1):
-        print(str(workListSeb.cell(row = 2, column = jn).value), str(j), str(workListSeb.cell(row = 2, column = jn).value)) == str(j))
-        if str(workListSeb.cell(row = 2, column = jn).value) == str(j):
-           weekColumn = jn
+    print(j)
     for k in sprTrz[j]:
         for l in sprTrz[j][k]:
-            print(j,sprTrz[j])
-#print('week',weekColumn)
+            print('week')
 
 #pprint.pprint(sprTrz)
