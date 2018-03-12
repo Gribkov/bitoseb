@@ -46,7 +46,7 @@ fileNameBi = openpyxl.load_workbook('trz.xlsx')
 fileNameSeb = openpyxl.load_workbook('seb.xlsx')
 
 
-#---TODO вывод предварительных данных
+#--- Вывод предварительных данных
 # Состав файла Трз
 # Исполнитель -  A4 (r4, c1)
 # Проект - G4 (r4, c7)
@@ -100,8 +100,15 @@ for j in sprTrz:
         for l in sprTrz[j][k]:
             w = 1
             for allRows in range(1,mxSeb,1):
-                print(str(l)+'<- L| ', str(workListSeb.cell(row = allRows, column = 1).value)+'<- A1| ', str(workListSeb.cell(row = allRows, column = 150).value)+'<-FN')
-            #if sprTrz[j][k] == workListSeb.cell(row = allRow, column = 150).value:
-
+                if str(k) == str(workListSeb.cell(row = allRows, column = 170).value) and \
+                   str(l) == str(workListSeb.cell(row = allRows, column = 2).value) and \
+                   str(workListSeb.cell(row = allRows, column = weekColumn).value) == 'None':
+                   print('Неделя: '+str(j)+' Контракт: '+str(k)+' Исполнитель: '+str(l) +
+                         ' ТрЗ: '+str(workListSeb.cell(row = allRows, column = weekColumn).value) +
+                         ' sprTrz: '+str(sprTrz[j][k][l]))
+                   workListSeb.cell(row = allRows, column = weekColumn).value = sprTrz[j][k][l]
+                   print('Неделя: ' + str(j) + ' Контракт: ' + str(k) + ' Исполнитель: ' + str(l) +
+                         ' ТрЗ: ' + str(workListSeb.cell(row=allRows, column=weekColumn).value) +
+                         ' sprTrz: ' + str(sprTrz[j][k][l]))
 
 #pprint.pprint(sprTrz)
