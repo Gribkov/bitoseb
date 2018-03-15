@@ -3,6 +3,8 @@ import os
 import shutil
 import datetime
 import pprint
+from openpyxl.styles import PatternFill
+from openpyxl import styles
 
 
 #--- Вывод описания и инструкции
@@ -36,14 +38,14 @@ def myFileName(welcomeText, needCopy):
       print('Файл не найден =(')
      except openpyxl.utils.exceptions.InvalidFileException:
       print('Файл не того формата =(')
-    return f
+    return (f, fNewName)
 #--- Вводим путь файла из bi
-#пока прикроем fileNameBi = myFileName('Введите имя файла выгрузки Bi и нажмите Enter:', False)
+#пока прикроем fileNameBi = myFileName('ВВЕДИТЕ ФАЙЛ ТРЗ ИЗ Bi', False)
 fileNameBi = openpyxl.load_workbook('trz.xlsx')
 
 #--- Вводим файл себестоимости, создаем копию с котррой и будем работать
-#пока прикроем fileNameSeb = myFileName('Введите имя файла себестоимости сюда и нажмите Enter:', True)
-fileNameSeb = openpyxl.load_workbook('seb.xlsx')
+fileNameSeb = myFileName('ВВЕДИТЕ ФАЙЛ СЕБЕСТОИМОСТИ', True)
+#fileNameSeb = openpyxl.load_workbook('seb.xlsx')
 
 
 #--- Вывод предварительных данных
@@ -60,8 +62,8 @@ fileNameSeb = openpyxl.load_workbook('seb.xlsx')
 listsBi = fileNameBi.sheetnames
 workListBi = fileNameBi[listsBi[0]]
 
-listsSeb = fileNameSeb.sheetnames
-workListSeb = fileNameSeb[listsSeb[0]]
+listsSeb = fileNameSeb[0].sheetnames
+workListSeb = fileNameSeb[0][listsSeb[0]]
 
 #Вычислим максимальное кол-во строк в выгрузке
 mxBi = 1 #сюда запишем сколько строк в выгрузке из  bi
@@ -107,8 +109,12 @@ for j in sprTrz:
                          ' ТрЗ: '+str(workListSeb.cell(row = allRows, column = weekColumn).value) +
                          ' sprTrz: '+str(sprTrz[j][k][l]))
                    workListSeb.cell(row = allRows, column = weekColumn).value = sprTrz[j][k][l]
+                   workListSeb.cell(row = allRows, column = weekColumn).fill = PatternFill(bgColor = 'FFAAFFAA', fill_type = None, start_color = 'FFFFFFFF', end_color = 'FF000000')
                    print('Неделя: ' + str(j) + ' Контракт: ' + str(k) + ' Исполнитель: ' + str(l) +
                          ' ТрЗ: ' + str(workListSeb.cell(row=allRows, column=weekColumn).value) +
                          ' sprTrz: ' + str(sprTrz[j][k][l]))
 
+
+fileNameSeb[0].save(fileNameSeb[1])
+fileNameSeb[0].close()
 #pprint.pprint(sprTrz)
