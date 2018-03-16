@@ -3,7 +3,8 @@ import os
 import shutil
 import datetime
 import pprint
-from openpyxl.styles import PatternFill
+from openpyxl.styles import PatternFill, Font
+from openpyxl.styles.colors import RED
 from openpyxl import styles
 
 
@@ -28,7 +29,7 @@ def myFileName(welcomeText, needCopy):
       if fName != 'q!':
          f = openpyxl.load_workbook(fName)
          if needCopy: #создаем копию файла и возвращаем ссылку на копию
-            fNewName = 'sebestsup_'+str(datetime.datetime.today().isoformat(sep='_',timespec='minutes'))+'.xlsx'
+            fNewName = 'sebestsup_'+str(datetime.datetime.today().isoformat(sep='_', timespec='hours'))+'.xlsx'
             shutil.copy(fName, fNewName)
             f = openpyxl.load_workbook(fNewName)
          fin = False
@@ -109,7 +110,7 @@ for j in sprTrz:
                          ' ТрЗ: '+str(workListSeb.cell(row = allRows, column = weekColumn).value) +
                          ' sprTrz: '+str(sprTrz[j][k][l]))
                    workListSeb.cell(row = allRows, column = weekColumn).value = sprTrz[j][k][l]
-                   workListSeb.cell(row = allRows, column = weekColumn).fill = PatternFill(bgColor = 'FFAAFFAA', fill_type = None, start_color = 'FFFFFFFF', end_color = 'FF000000')
+                   workListSeb.cell(row = allRows, column = weekColumn).font = Font(bold=True, color=RED)
                    print('Неделя: ' + str(j) + ' Контракт: ' + str(k) + ' Исполнитель: ' + str(l) +
                          ' ТрЗ: ' + str(workListSeb.cell(row=allRows, column=weekColumn).value) +
                          ' sprTrz: ' + str(sprTrz[j][k][l]))
