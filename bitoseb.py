@@ -42,7 +42,7 @@ def myFileName(welcomeText, needCopy):
     return (f, fNewName)
 #--- Вводим путь файла из bi
 #пока прикроем fileNameBi = myFileName('ВВЕДИТЕ ФАЙЛ ТРЗ ИЗ Bi', False)
-fileNameBi = openpyxl.load_workbook('trz.xlsx')
+fileNameBi = openpyxl.load_workbook('trzc.xlsx')
 
 #--- Вводим файл себестоимости, создаем копию с котррой и будем работать
 fileNameSeb = myFileName('ВВЕДИТЕ ФАЙЛ СЕБЕСТОИМОСТИ', True)
@@ -70,11 +70,13 @@ workListSeb = fileNameSeb[0][listsSeb[0]]
 mxBi = 1 #сюда запишем сколько строк в выгрузке из  bi
 while  str(workListBi.cell(row = mxBi, column = 1).value) != 'Общий итог':
        mxBi += 1
+print('mxBi =',mxBi)
 
 #Вычислим максимальное кол-во строк в себестоимости
 mxSeb = 1 #сюда запишем сколько строк в себестоимости
 while  str(workListSeb.cell(row = mxSeb, column = 1).value) != 'ENDOFTRZ':
        mxSeb += 1
+print('mxSeb =',mxSeb)
 
 #Создадим справочник контрактов со справочником исполнителей и из трз
 sprTrz = {}
@@ -114,7 +116,6 @@ for j in sprTrz:
                    print('Неделя: ' + str(j) + ' Контракт: ' + str(k) + ' Исполнитель: ' + str(l) +
                          ' ТрЗ: ' + str(workListSeb.cell(row=allRows, column=weekColumn).value) +
                          ' sprTrz: ' + str(sprTrz[j][k][l]))
-
 
 fileNameSeb[0].save(fileNameSeb[1])
 fileNameSeb[0].close()
