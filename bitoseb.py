@@ -42,7 +42,7 @@ def myFileName(welcomeText, needCopy):
     return (f, fNewName)
 #--- Вводим путь файла из bi
 #пока прикроем fileNameBi = myFileName('ВВЕДИТЕ ФАЙЛ ТРЗ ИЗ Bi', False)
-fileNameBi = openpyxl.load_workbook('trzc.xlsx')
+fileNameBi = openpyxl.load_workbook('trzc_rg.xlsx')
 
 #--- Вводим файл себестоимости, создаем копию с котррой и будем работать
 fileNameSeb = myFileName('ВВЕДИТЕ ФАЙЛ СЕБЕСТОИМОСТИ', True)
@@ -57,7 +57,6 @@ fileNameSeb = myFileName('ВВЕДИТЕ ФАЙЛ СЕБЕСТОИМОСТИ', T
 # Трудозатраты - N4 (r4, c14)
 # Неделя - D4 и E4 (r4, c4) и (r4, c5)
 # Корретировка - AQ4 (r4, c43)
-#
 
 
 listsBi = fileNameBi.sheetnames
