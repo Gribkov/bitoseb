@@ -42,7 +42,7 @@ def myFileName(welcomeText, needCopy):
     return (f, fNewName)
 #--- Вводим путь файла из bi
 #пока прикроем fileNameBi = myFileName('ВВЕДИТЕ ФАЙЛ ТРЗ ИЗ Bi', False)
-fileNameBi = openpyxl.load_workbook('trzc_rg.xlsx')
+fileNameBi = openpyxl.load_workbook('trzc.xlsx')
 
 #--- Вводим файл себестоимости, создаем копию с котррой и будем работать
 fileNameSeb = myFileName('ВВЕДИТЕ ФАЙЛ СЕБЕСТОИМОСТИ', True)
@@ -83,7 +83,10 @@ sprTrz = {}
 i = 4
 for i in range(4,mxBi,1):
     #Разберем строку на составляющие
-    contract = workListBi.cell(row = i, column = 9).value
+    if 'NA' == str(workListBi.cell(row = i, column = 9).value):#Проверяем наличие контракта
+        contract = workListBi.cell(row = i, column = 7).value #Берем проект если нет контракта
+    else:
+        contract = workListBi.cell(row=i, column=9).value #Берем контракт
     weekStart = workListBi.cell(row = i, column = 4).value
     weekEnd = workListBi.cell(row=i, column=5).value
     week = str(weekStart.day).zfill(2)+'/'+str(weekStart.month).zfill(2)+'-'+str(weekEnd.day).zfill(2)+'/'+str(weekEnd.month).zfill(2)
@@ -98,13 +101,16 @@ for i in range(4,mxBi,1):
 for j in sprTrz:
     #найдем колонку с неделей
     for jn in range(1, 150, 1):
-        if str(workListSeb.cell(row = 2, column = jn).value) == str(j):
+        if str(workListSeb.cell(row = 2, column = jn).value).strip(' ') == str(j):
            weekColumn = jn+1 #т.к. неделя в себестоимости объединена, то надо брать на одну дальше, что бы писать в факт
+           print('wc = '+str(weekColumn)+' week = '+str(workListSeb.cell(row = 2, column = jn).value) + ' j = '+ str(j))
     for k in sprTrz[j]:
         for l in sprTrz[j][k]:
             w = 1
             for allRows in range(1,mxSeb,1):
-                if str(k) == str(workListSeb.cell(row = allRows, column = 170).value) and \
+                #print('k = ' + str(k) + ' fn = ' + str(workListSeb.cell(row=allRows, column=170).value))
+                if str(j) == str(workListSeb.cell(row = 2, column = weekColumn-1).value) and \
+                   str(k) == str(workListSeb.cell(row = allRows, column = 170).value) and \
                    str(l) == str(workListSeb.cell(row = allRows, column = 2).value) and \
                    str(workListSeb.cell(row = allRows, column = weekColumn).value) == 'None':
                    print('Неделя: '+str(j)+' Контракт: '+str(k)+' Исполнитель: '+str(l) +
@@ -112,7 +118,7 @@ for j in sprTrz:
                          ' sprTrz: '+str(sprTrz[j][k][l]))
                    workListSeb.cell(row = allRows, column = weekColumn).value = sprTrz[j][k][l]
                    workListSeb.cell(row = allRows, column = weekColumn).font = Font(bold=True, color=RED)
-                   print('Неделя: ' + str(j) + ' Контракт: ' + str(k) + ' Исполнитель: ' + str(l) +
+                   print('Неделя: ' + str(j) + ' wc = ' + str(weekColumn) + ' Контракт: ' + str(k) + ' Исполнитель: ' + str(l) +
                          ' ТрЗ: ' + str(workListSeb.cell(row=allRows, column=weekColumn).value) +
                          ' sprTrz: ' + str(sprTrz[j][k][l]))
 
