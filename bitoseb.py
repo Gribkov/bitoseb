@@ -124,4 +124,3 @@ for j in sprTrz:
 
 fileNameSeb[0].save(fileNameSeb[1])
 fileNameSeb[0].close()
-#pprint.pprint(sprTrz)
